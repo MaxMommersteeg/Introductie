@@ -78,14 +78,14 @@ namespace Sudoku_WPF.ViewModel {
         }
 
         public void CheckGame() {
+            //Check if current board values are correct, notify user with a messagebox
             string message;
             message = _sudoku.IsValid() ? "De huidige cijfers kloppen." : "Éen of meerder cijfers zijn incorrect.";
             MessageBox.Show(message, "Spel controle");
         }
 
         public void CheatGame() {
-            var pos = _sudoku.GetHint();
-            //tel de hoeveelheid die opgelost moet worden
+            //var pos = _sudoku.GetHint();
             int unsolvedCount = 0;
             foreach (var l in Locations) {
                 if (l.Value != 0)
