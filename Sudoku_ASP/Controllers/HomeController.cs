@@ -1,85 +1,59 @@
 ﻿using SudokuBasis;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SudokuWeb_Week5.Controllers {
     public class HomeController : Controller
     {
+        private SudokuGame _currentGame;
 
         public HomeController()
-        {
-            
+        { }
+
+        public ActionResult Index() {
+            RetrieveGameSession();
+            return View(_currentGame);
         }
 
-        public ActionResult Index()
-        {
-            var game = new SudokuGame();
-            var lijstje = game.GetBoard();
-            TempData["lijstje"] = lijstje;
-
-
-            return View(GetGameSession());
-        }
-
-        public ActionResult NewGame()
-        {
+        public ActionResult NewGame() {
             NewGameSession();
             return RedirectToAction("Index");
         }
 
-        public ActionResult SetValue(short indexx, short indexy, short value)
-        {
-            SudokuGame sudoku = GetGameSession();
-            sudoku.SetValue(new Position() { X = indexx, Y = indexy, Value = value });
+        public ActionResult Hint() {
+            RetrieveGameSession();
+            int toSolve = _currentGame.GetBoard().Where(x => x.Value == 0).Count() - 2;
+            for (int x = 0; x < toSolve; x++) {
+                Position position = _currentGame.GetHint();
+                _currentGame.SetValue(position);
+            }
             return RedirectToAction("Index");
         }
 
-        public ActionResult Hint()
-        {
-            SudokuGame sudoku = GetGameSession();
-            Position pos = sudoku.GetHint();
+        #region Ajax
 
-            //x en y zijn om de een of andere rede omgekeerd
-            //MessageBox.Show(pos.X + "=Y;" + pos.Y + "=X: VALUE = " + pos.Value);
-
-            //tel de hoeveelheid die opgelost moet worden
-            int unsolvedCount = 0;
-            foreach (Position position in sudoku.GetBoard())
-            {
-                if (position.Value == 0)
-                {
-                    unsolvedCount++;
-                }
+        public void SetValue(short posx, short posy, short value) {
+            RetrieveGameSession();
+            _currentGame.SetValue(new Position() { X = posx, Y = posy, Value = value });
+            if(_currentGame.IsCompleted()) {
+                RedirectToAction("Index");
             }
-
-            //Alles behalve 2 moet opgelost worden
-            int solveCount = unsolvedCount - 2;
-            for (int x = 0; x < solveCount; x++)
-            {
-                Position position = sudoku.GetHint();
-                sudoku.SetValue(position);
-            }
-
-            return RedirectToAction("Index");
         }
 
-        private void NewGameSession()
-        {
-            SudokuGame game = new SudokuGame();
+        #endregion
+
+        private void NewGameSession() {
+            var game = new SudokuGame();
             game.NewGame();
-
             Session["game"] = game;
         }
 
-        private SudokuGame GetGameSession()
-        {
-            SudokuGame game = Session["game"] as SudokuGame;
-            if (game == null)
-            {
+        private void RetrieveGameSession() {
+            _currentGame = Session["game"] as SudokuGame;
+            if (_currentGame == null) {
                 NewGameSession();
-                game = Session["game"] as SudokuGame;
+                _currentGame = Session["game"] as SudokuGame;
             }
-
-            return game;
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using SudokuBasis;
 
-namespace SudokuWeb_Week5.Models
+namespace Sudoku_ASP.Models
 {
-    public class SudokuView
+    public class SudokuModel
     {
         public List<Position> Locations { get; set; }
     }
