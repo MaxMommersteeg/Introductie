@@ -85,19 +85,13 @@ namespace Sudoku_WPF.ViewModel {
         }
 
         public void CheatGame() {
-            //var pos = _sudoku.GetHint();
-            int unsolvedCount = 0;
-            foreach (var l in Locations) {
-                if (l.Value != 0)
-                    continue;
-                unsolvedCount++;
-            }
-
-            //Alles behalve 2 moet opgelost worden
-            int solveCount = unsolvedCount - 2;
-            for (int x = 0; x < solveCount; x++) {
+            int toSolve = Locations.Where(x => x.Value == 0).Count() - 2;
+            for (int i = 0; i < toSolve; i++) {
+                //Ask for a hint
                 var position = _sudoku.GetHint();
-                var loc = Locations.Where(l => l.X == position.X && l.Y == position.Y).First();
+                //Check at what location the hint is positioned
+                //We are always able to grab the first, since it is a hint from the dll
+                var loc = Locations.Where(x => x.X == position.X && x.Y == position.Y).First();
                 loc.Value = position.Value;
             }
         }

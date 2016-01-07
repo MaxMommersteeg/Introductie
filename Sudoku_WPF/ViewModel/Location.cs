@@ -20,16 +20,20 @@ namespace Sudoku_WPF.ViewModel {
         {
             get { return _position.Value; }
             set {
-                //Validate number
+                //Validate value
                 if (value > 9 || value < 1) {
                     MessageBox.Show("Vul een waarde van 1 t/m 9 in.", "Ongeldige waarde", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
+
+                //Value has been validated, set the property
                 _position.Value = value;
+                //Update class library value
                 _game.SetValue(_position);
+                //Check if game has been finished
                 if (_game.IsCompleted())
                 {
-                    MessageBox.Show("De Sudoku is opgelost", "Gefeliciteerd!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show("De Sudoku is opgelost", "Sudoku opgelost", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
                 OnPropertyChanged();
             }
