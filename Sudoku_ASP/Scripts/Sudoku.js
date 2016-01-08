@@ -15,6 +15,7 @@ $(document).ready(function () {
         if (txtInput.val() == 0) {
             return;
         }
+        //check if the inserted length is equal, if so reset and return
         if (txtInput.val().length == 0) {
             txtInput.val(0);
             return;

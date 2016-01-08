@@ -41,10 +41,16 @@ namespace Sudoku_WPF.ViewModel {
 
             NewGame();
 
+            #region Commands
+
             NewGameCommand = new RelayCommand(NewGame, CanNewGame);
             CheckCommand = new RelayCommand(CheckGame, CanCheckGame);
             CheatCommand = new RelayCommand(CheatGame, CanCheatGame);
+
+            #endregion
         }
+
+        #region ValidateCommands
 
         public bool CanNewGame() {
             return true;
@@ -57,6 +63,8 @@ namespace Sudoku_WPF.ViewModel {
         public bool CanCheatGame() {
             return true;
         }
+
+        #endregion
 
         public void NewGame() {
             //Let class library create a new game

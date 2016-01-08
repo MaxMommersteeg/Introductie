@@ -32,7 +32,6 @@ namespace SudokuBasis {
             return success == 1;
         }
 
-
         /// <summary>
         /// Get current value for given position
         /// </summary>
@@ -60,6 +59,8 @@ namespace SudokuBasis {
             return GetBoard().Where(x => x.Value > 0).Count() == 81;
         }
 
+        #region NotUsed
+
         /// <summary>
         /// Not sure when to use this
         /// </summary>
@@ -79,6 +80,8 @@ namespace SudokuBasis {
             game.write(out succeeded);
             return succeeded == 1;
         }
+
+        #endregion
 
         /// <summary>
         /// GetBoard for getting a complete list with all coordinates and values

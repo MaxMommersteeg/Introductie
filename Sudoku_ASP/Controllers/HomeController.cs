@@ -49,10 +49,10 @@ namespace SudokuWeb_Week5.Controllers {
         }
 
         private void RetrieveGameSession() {
-            _currentGame = Session["game"] as SudokuGame;
+            _currentGame = (SudokuGame)Session["game"];
             if (_currentGame == null) {
                 NewGameSession();
-                _currentGame = Session["game"] as SudokuGame;
+                _currentGame = (SudokuGame)Session["game"];
             }
         }
     }
